@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <!-- <ion-title>Prisma Club</ion-title> -->
+    <img src="assets/images/logo.png">
+    </ion-navbar>
+</ion-header>
+<ion-content class="home">
+  <ion-list *ngFor="let item of items">
+    <button ion-item (click)="itemTapped($event, item)">
+        <img *ngIf="item.ccw_thumbnail && item.ccw_thumbnail" [src]="item.ccw_thumbnail">
+      <h2 [innerHtml]="item.title.rendered"></h2>
+      <p [innerHtml]="item.excerpt.rendered"></p>
+      <div><ion-icon name="share-alt"> Share</ion-icon>
+      </div>
+    </button>
+  </ion-list>
+</ion-content>
