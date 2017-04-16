@@ -16,10 +16,31 @@
     abaixo o link do manual por ano modelo.
   </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>Ano 2008 <ion-icon name="cloud-download" item-left></ion-icon></ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item (click)="openPdf(2009)">
+        Download 2007
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="openPdf(2009)">
+        Download 2008
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="openPdf(2009)">
+        Download 2009
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="openPdf(2010)">
+        Download 2010
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="openPdf(20011)">
+        Download 2011
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="openPdf(2012)">
+        Download 2012
+      <ion-icon name="cloud-download" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

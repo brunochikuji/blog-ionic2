@@ -19,4 +19,8 @@ export class ManualPage {
     console.log('ionViewDidLoad ManualPage');
   }
 
+  openPdf(year) {
+      window.open("http://prismaclubsp.com.br/manuais/prisma-" +year+".pdf", '_blank');
+  }
+
 }

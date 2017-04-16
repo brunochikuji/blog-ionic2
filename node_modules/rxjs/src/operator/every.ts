@@ -11,13 +11,9 @@ import { Subscriber } from '../Subscriber';
  * @method every
  * @owner Observable
  */
-export function every<T>(predicate: (value: T, index: number, source: Observable<T>) => boolean,
+export function every<T>(this: Observable<T>, predicate: (value: T, index: number, source: Observable<T>) => boolean,
                          thisArg?: any): Observable<boolean> {
   return this.lift(new EveryOperator(predicate, thisArg, this));
-}
-
-export interface EverySignature<T> {
-  (predicate: (value: T, index: number, source: Observable<T>) => boolean, thisArg?: any): Observable<boolean>;
 }
 
 class EveryOperator<T> implements Operator<T, boolean> {
@@ -27,7 +23,7 @@ class EveryOperator<T> implements Operator<T, boolean> {
   }
 
   call(observer: Subscriber<boolean>, source: any): any {
-    return source._subscribe(new EverySubscriber(observer, this.predicate, this.thisArg, this.source));
+    return source.subscribe(new EverySubscriber(observer, this.predicate, this.thisArg, this.source));
   }
 }
 

@@ -46,15 +46,11 @@ import { TeardownLogic } from '../Subscription';
  * @method delay
  * @owner Observable
  */
-export function delay<T>(delay: number|Date,
+export function delay<T>(this: Observable<T>, delay: number|Date,
                          scheduler: Scheduler = async): Observable<T> {
   const absoluteDelay = isDate(delay);
   const delayFor = absoluteDelay ? (+delay - scheduler.now()) : Math.abs(<number>delay);
   return this.lift(new DelayOperator(delayFor, scheduler));
-}
-
-export interface DelaySignature<T> {
-  (delay: number | Date, scheduler?: Scheduler): Observable<T>;
 }
 
 class DelayOperator<T> implements Operator<T, T> {
@@ -63,7 +59,7 @@ class DelayOperator<T> implements Operator<T, T> {
   }
 
   call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source._subscribe(new DelaySubscriber(subscriber, this.delay, this.scheduler));
+    return source.subscribe(new DelaySubscriber(subscriber, this.delay, this.scheduler));
   }
 }
 

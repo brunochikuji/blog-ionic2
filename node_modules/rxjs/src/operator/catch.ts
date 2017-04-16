@@ -13,16 +13,13 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @return {Observable} an observable that originates from either the source or the observable returned by the
  *  catch `selector` function.
  * @method catch
+ * @name catch
  * @owner Observable
  */
-export function _catch<T, R>(selector: (err: any, caught: Observable<T>) => ObservableInput<R>): Observable<R> {
+export function _catch<T, R>(this: Observable<T>, selector: (err: any, caught: Observable<T>) => ObservableInput<R>): Observable<R> {
   const operator = new CatchOperator(selector);
   const caught = this.lift(operator);
   return (operator.caught = caught);
-}
-
-export interface CatchSignature<T> {
-  <R>(selector: (err: any, caught: Observable<T>) => ObservableInput<R>): Observable<R>;
 }
 
 class CatchOperator<T, R> implements Operator<T, R> {
@@ -32,7 +29,7 @@ class CatchOperator<T, R> implements Operator<T, R> {
   }
 
   call(subscriber: Subscriber<R>, source: any): any {
-    return source._subscribe(new CatchSubscriber(subscriber, this.selector, this.caught));
+    return source.subscribe(new CatchSubscriber(subscriber, this.selector, this.caught));
   }
 }
 

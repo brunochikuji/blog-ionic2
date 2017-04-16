@@ -5,6 +5,8 @@ import { errorObject } from '../util/errorObject';
 import { Subscription } from '../Subscription';
 import { Subscriber } from '../Subscriber';
 
+const toString: Function = Object.prototype.toString;
+
 export type NodeStyleEventEmmitter = {
   addListener: (eventName: string, handler: Function) => void;
   removeListener: (eventName: string, handler: Function) => void;
@@ -22,11 +24,11 @@ function isJQueryStyleEventEmitter(sourceObj: any): sourceObj is JQueryStyleEven
 }
 
 function isNodeList(sourceObj: any): sourceObj is NodeList {
-  return !!sourceObj && sourceObj.toString() === '[object NodeList]';
+  return !!sourceObj && toString.call(sourceObj) === '[object NodeList]';
 }
 
 function isHTMLCollection(sourceObj: any): sourceObj is HTMLCollection {
-  return !!sourceObj && sourceObj.toString() === '[object HTMLCollection]';
+  return !!sourceObj && toString.call(sourceObj) === '[object HTMLCollection]';
 }
 
 function isEventTarget(sourceObj: any): sourceObj is EventTarget {
@@ -48,7 +50,7 @@ export type SelectorMethodSignature<T> = (...args: Array<any>) => T;
  * @extends {Ignored}
  * @hide true
  */
-export class FromEventObservable<T, R> extends Observable<T> {
+export class FromEventObservable<T> extends Observable<T> {
 
   /* tslint:disable:max-line-length */
   static create<T>(target: EventTargetLike, eventName: string): Observable<T>;
@@ -77,6 +79,10 @@ export class FromEventObservable<T, R> extends Observable<T> {
    * var clicks = Rx.Observable.fromEvent(document, 'click');
    * clicks.subscribe(x => console.log(x));
    *
+   * // Results in:
+   * // MouseEvent object logged to console everytime a click
+   * // occurs on the document.
+   *
    * @see {@link from}
    * @see {@link fromEventPattern}
    *
@@ -84,7 +90,7 @@ export class FromEventObservable<T, R> extends Observable<T> {
    * EventEmitter, NodeList or HTMLCollection to attach the event handler to.
    * @param {string} eventName The event name of interest, being emitted by the
    * `target`.
-   * @parm {EventListenerOptions} [options] Options to pass through to addEventListener
+   * @param {EventListenerOptions} [options] Options to pass through to addEventListener
    * @param {SelectorMethodSignature<T>} [selector] An optional function to
    * post-process results. It takes the arguments from the event handler and
    * should return a single value.
@@ -133,6 +139,8 @@ export class FromEventObservable<T, R> extends Observable<T> {
       const source = sourceObj;
       sourceObj.addListener(eventName, handler);
       unsubscribe = () => source.removeListener(eventName, handler);
+    } else {
+      throw new TypeError('Invalid event target');
     }
 
     subscriber.add(new Subscription(unsubscribe));

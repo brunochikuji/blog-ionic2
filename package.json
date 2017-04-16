@@ -1,44 +1,72 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "PrismaClub",
+  "author": "Bruno Chikuji",
+  "homepage": "http://prismaclubsp.com.br/",
+  "description": "Prisma Club - Blog do Chevrolet Prisma",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "test": "ng test",
+    "test-coverage": "ng test --code-coverage"
   },
-  "dependencies": {
-    "@angular/common": "2.2.1",
-    "@angular/compiler": "2.2.1",
-    "@angular/compiler-cli": "2.2.1",
-    "@angular/core": "2.2.1",
-    "@angular/forms": "2.2.1",
-    "@angular/http": "2.2.1",
-    "@angular/platform-browser": "2.2.1",
-    "@angular/platform-browser-dynamic": "2.2.1",
-    "@angular/platform-server": "2.2.1",
-    "@ionic/storage": "1.1.7",
-    "ionic-angular": "2.0.1",
+   "dependencies": {
+    "@angular/common": "2.4.8",
+    "@angular/compiler": "2.4.8",
+    "@angular/compiler-cli": "2.4.8",
+    "@angular/core": "2.4.8",
+    "@angular/forms": "2.4.8",
+    "@angular/http": "2.4.8",
+    "@angular/platform-browser": "2.4.8",
+    "@angular/platform-browser-dynamic": "2.4.8",
+    "@angular/platform-server": "2.4.8",
+    "@ionic/storage": "^2.0.0",
+    "ionic-angular": "2.3.0",
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
-    "rxjs": "5.0.0-beta.12",
+    "ng2-translate": "^3.1.0",
+    "rxjs": "5.0.1",
     "sw-toolbox": "3.4.0",
-    "zone.js": "0.6.26"
+    "zone.js": "0.7.2"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "1.0.0",
-    "typescript": "2.0.9"
+    "@angular/cli": "1.0.0-beta.31",
+    "@ionic/app-scripts": "1.1.4",
+    "@types/jasmine": "^2.5.41",
+    "@types/node": "^7.0.5",
+    "codecov": "^1.0.1",
+    "jasmine-core": "^2.5.2",
+    "jasmine-spec-reporter": "^3.2.0",
+    "karma": "^1.4.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-mocha-reporter": "^2.2.2",
+    "karma-remap-istanbul": "^0.6.0",
+    "ts-node": "^2.0.0",
+    "tslint": "^4.4.2",
+    "tslint-eslint-rules": "^3.3.0",
+    "typescript": "^2.1.0"
   },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/ionic-cz-conventional-changelog"
+    },
+    "ionic_copy": "./scripts/demos/copy.config.js"
+  },
+  "pre-push#master": [
+    "test"
+  ],
   "cordovaPlugins": [
     "cordova-plugin-device",
-    "cordova-plugin-whitelist",
     "cordova-plugin-console",
+    "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard"
   ],
-  "cordovaPlatforms": [],
-  "description": "PrismaClub: An Ionic project"
+  "cordovaPlatforms": []
 }

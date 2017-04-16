@@ -33,6 +33,9 @@ import { Subscriber } from '../Subscriber';
  * var result = numbers.count(i => i % 2 === 1);
  * result.subscribe(x => console.log(x));
  *
+ * // Results in:
+ * // 4
+ *
  * @see {@link max}
  * @see {@link min}
  * @see {@link reduce}
@@ -48,12 +51,8 @@ import { Subscriber } from '../Subscriber';
  * @method count
  * @owner Observable
  */
-export function count<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
+export function count<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
   return this.lift(new CountOperator(predicate, this));
-}
-
-export interface CountSignature<T> {
-  (predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number>;
 }
 
 class CountOperator<T> implements Operator<T, number> {
@@ -62,7 +61,7 @@ class CountOperator<T> implements Operator<T, number> {
   }
 
   call(subscriber: Subscriber<number>, source: any): any {
-    return source._subscribe(new CountSubscriber(subscriber, this.predicate, this.source));
+    return source.subscribe(new CountSubscriber(subscriber, this.predicate, this.source));
   }
 }
 

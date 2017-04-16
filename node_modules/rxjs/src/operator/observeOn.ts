@@ -15,12 +15,8 @@ import { TeardownLogic } from '../Subscription';
  * @method observeOn
  * @owner Observable
  */
-export function observeOn<T>(scheduler: Scheduler, delay: number = 0): Observable<T> {
+export function observeOn<T>(this: Observable<T>, scheduler: Scheduler, delay: number = 0): Observable<T> {
   return this.lift(new ObserveOnOperator(scheduler, delay));
-}
-
-export interface ObserveOnSignature<T> {
-  (scheduler: Scheduler, delay?: number): Observable<T>;
 }
 
 export class ObserveOnOperator<T> implements Operator<T, T> {
@@ -28,7 +24,7 @@ export class ObserveOnOperator<T> implements Operator<T, T> {
   }
 
   call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source._subscribe(new ObserveOnSubscriber(subscriber, this.scheduler, this.delay));
+    return source.subscribe(new ObserveOnSubscriber(subscriber, this.scheduler, this.delay));
   }
 }
 

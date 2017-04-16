@@ -13,7 +13,11 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 
+
+
 /// <reference no-default-lib="true"/>
+
+
 /// <reference path="lib.es2015.symbol.d.ts" />
 
 interface SymbolConstructor {
@@ -115,10 +119,10 @@ interface MapConstructor {
     new <K, V>(iterable: Iterable<[K, V]>): Map<K, V>;
 }
 
-interface WeakMap<K, V> { }
+interface WeakMap<K extends object, V> { }
 
 interface WeakMapConstructor {
-    new <K, V>(iterable: Iterable<[K, V]>): WeakMap<K, V>;
+    new <K extends object, V>(iterable: Iterable<[K, V]>): WeakMap<K, V>;
 }
 
 interface Set<T> {

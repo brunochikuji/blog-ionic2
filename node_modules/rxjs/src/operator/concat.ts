@@ -4,6 +4,17 @@ import { isScheduler } from '../util/isScheduler';
 import { ArrayObservable } from '../observable/ArrayObservable';
 import { MergeAllOperator } from './mergeAll';
 
+/* tslint:disable:max-line-length */
+export function concat<T>(this: Observable<T>, scheduler?: Scheduler): Observable<T>;
+export function concat<T, T2>(this: Observable<T>, v2: ObservableInput<T2>, scheduler?: Scheduler): Observable<T | T2>;
+export function concat<T, T2, T3>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: Scheduler): Observable<T | T2 | T3>;
+export function concat<T, T2, T3, T4>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
+export function concat<T, T2, T3, T4, T5>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
+export function concat<T, T2, T3, T4, T5, T6>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
+export function concat<T>(this: Observable<T>, ...observables: Array<ObservableInput<T> | Scheduler>): Observable<T>;
+export function concat<T, R>(this: Observable<T>, ...observables: Array<ObservableInput<any> | Scheduler>): Observable<R>;
+/* tslint:disable:max-line-length */
+
 /**
  * Creates an output Observable which sequentially emits all values from every
  * given input Observable after the current Observable.
@@ -24,12 +35,21 @@ import { MergeAllOperator } from './mergeAll';
  * var result = timer.concat(sequence);
  * result.subscribe(x => console.log(x));
  *
+ * // results in:
+ * // 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
+ *
  * @example <caption>Concatenate 3 Observables</caption>
  * var timer1 = Rx.Observable.interval(1000).take(10);
  * var timer2 = Rx.Observable.interval(2000).take(6);
  * var timer3 = Rx.Observable.interval(500).take(10);
  * var result = timer1.concat(timer2, timer3);
  * result.subscribe(x => console.log(x));
+ * 
+ * // results in the following:
+ * // (Prints to console sequentially)
+ * // -1000ms-> 0 -1000ms-> 1 -1000ms-> ... 9
+ * // -2000ms-> 0 -2000ms-> 1 -2000ms-> ... 5
+ * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
  *
  * @see {@link concatAll}
  * @see {@link concatMap}
@@ -44,22 +64,9 @@ import { MergeAllOperator } from './mergeAll';
  * @method concat
  * @owner Observable
  */
-export function concat<T, R>(...observables: Array<ObservableInput<any> | Scheduler>): Observable<R> {
-  return concatStatic<T, R>(this, ...observables);
+export function concat<T, R>(this: Observable<T>, ...observables: Array<ObservableInput<any> | Scheduler>): Observable<R> {
+  return this.lift.call(concatStatic<T, R>(this, ...observables));
 }
-
-/* tslint:disable:max-line-length */
-export interface ConcatSignature<T> {
-  (scheduler?: Scheduler): Observable<T>;
-  <T2>(v2: ObservableInput<T2>, scheduler?: Scheduler): Observable<T | T2>;
-  <T2, T3>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: Scheduler): Observable<T | T2 | T3>;
-  <T2, T3, T4>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
-  <T2, T3, T4, T5>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
-  <T2, T3, T4, T5, T6>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
-  (...observables: Array<ObservableInput<T> | Scheduler>): Observable<T>;
-  <R>(...observables: Array<ObservableInput<any> | Scheduler>): Observable<R>;
-}
-/* tslint:enable:max-line-length */
 
 /* tslint:disable:max-line-length */
 export function concatStatic<T>(v1: ObservableInput<T>, scheduler?: Scheduler): Observable<T>;
@@ -90,6 +97,9 @@ export function concatStatic<T, R>(...observables: (ObservableInput<any> | Sched
  * var result = Rx.Observable.concat(timer, sequence);
  * result.subscribe(x => console.log(x));
  *
+ * // results in:
+ * // 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
+ *
  * @example <caption>Concatenate 3 Observables</caption>
  * var timer1 = Rx.Observable.interval(1000).take(10);
  * var timer2 = Rx.Observable.interval(2000).take(6);
@@ -97,6 +107,12 @@ export function concatStatic<T, R>(...observables: (ObservableInput<any> | Sched
  * var result = Rx.Observable.concat(timer1, timer2, timer3);
  * result.subscribe(x => console.log(x));
  *
+ * // results in the following:
+ * // (Prints to console sequentially)
+ * // -1000ms-> 0 -1000ms-> 1 -1000ms-> ... 9
+ * // -2000ms-> 0 -2000ms-> 1 -2000ms-> ... 5
+ * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
+ * 
  * @see {@link concatAll}
  * @see {@link concatMap}
  * @see {@link concatMapTo}
@@ -117,6 +133,10 @@ export function concatStatic<T, R>(...observables: Array<ObservableInput<any> | 
   let args = <any[]>observables;
   if (isScheduler(args[observables.length - 1])) {
     scheduler = args.pop();
+  }
+
+  if (scheduler === null && observables.length === 1) {
+    return <Observable<R>>observables[0];
   }
 
   return new ArrayObservable(observables, scheduler).lift(new MergeAllOperator<R>(1));

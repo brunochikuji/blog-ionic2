@@ -4,6 +4,23 @@ import { ArrayObservable } from '../observable/ArrayObservable';
 import { MergeAllOperator } from './mergeAll';
 import { isScheduler } from '../util/isScheduler';
 
+/* tslint:disable:max-line-length */
+export function merge<T>(this: Observable<T>, scheduler?: Scheduler): Observable<T>;
+export function merge<T>(this: Observable<T>, concurrent?: number, scheduler?: Scheduler): Observable<T>;
+export function merge<T, T2>(this: Observable<T>, v2: ObservableInput<T2>, scheduler?: Scheduler): Observable<T | T2>;
+export function merge<T, T2>(this: Observable<T>, v2: ObservableInput<T2>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2>;
+export function merge<T, T2, T3>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: Scheduler): Observable<T | T2 | T3>;
+export function merge<T, T2, T3>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3>;
+export function merge<T, T2, T3, T4>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
+export function merge<T, T2, T3, T4>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
+export function merge<T, T2, T3, T4, T5>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
+export function merge<T, T2, T3, T4, T5>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
+export function merge<T, T2, T3, T4, T5, T6>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
+export function merge<T, T2, T3, T4, T5, T6>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
+export function merge<T>(this: Observable<T>, ...observables: Array<ObservableInput<T> | Scheduler | number>): Observable<T>;
+export function merge<T, R>(this: Observable<T>, ...observables: Array<ObservableInput<any> | Scheduler | number>): Observable<R>;
+/* tslint:disable:max-line-length */
+
 /**
  * Creates an output Observable which concurrently emits all values from every
  * given input Observable.
@@ -50,29 +67,9 @@ import { isScheduler } from '../util/isScheduler';
  * @method merge
  * @owner Observable
  */
-export function merge<T, R>(...observables: Array<ObservableInput<any> | Scheduler | number>): Observable<R> {
-  observables.unshift(this);
-  return mergeStatic.apply(this, observables);
+export function merge<T, R>(this: Observable<T>, ...observables: Array<ObservableInput<any> | Scheduler | number>): Observable<R> {
+  return this.lift.call(mergeStatic<T, R>(this, ...observables));
 }
-
-/* tslint:disable:max-line-length */
-export interface MergeSignature<T> {
-  (scheduler?: Scheduler): Observable<T>;
-  (concurrent?: number, scheduler?: Scheduler): Observable<T>;
-  <T2>(v2: ObservableInput<T2>, scheduler?: Scheduler): Observable<T | T2>;
-  <T2>(v2: ObservableInput<T2>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2>;
-  <T2, T3>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: Scheduler): Observable<T | T2 | T3>;
-  <T2, T3>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3>;
-  <T2, T3, T4>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
-  <T2, T3, T4>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4>;
-  <T2, T3, T4, T5>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
-  <T2, T3, T4, T5>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5>;
-  <T2, T3, T4, T5, T6>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
-  <T2, T3, T4, T5, T6>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, concurrent?: number, scheduler?: Scheduler): Observable<T | T2 | T3 | T4 | T5 | T6>;
-  (...observables: Array<ObservableInput<T> | Scheduler | number>): Observable<T>;
-  <R>(...observables: Array<ObservableInput<any> | Scheduler | number>): Observable<R>;
-}
-/* tslint:enable:max-line-length */
 
 /* tslint:disable:max-line-length */
 export function mergeStatic<T>(v1: ObservableInput<T>, scheduler?: Scheduler): Observable<T>;
@@ -111,6 +108,12 @@ export function mergeStatic<T, R>(...observables: (ObservableInput<any> | Schedu
  * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
  * clicksOrTimer.subscribe(x => console.log(x));
  *
+ * // Results in the following:
+ * // timer will emit ascending values, one every second(1000ms) to console
+ * // clicks logs MouseEvents to console everytime the "document" is clicked
+ * // Since the two streams are merged you see these happening
+ * // as they occur.
+ *
  * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
  * var timer1 = Rx.Observable.interval(1000).take(10);
  * var timer2 = Rx.Observable.interval(2000).take(6);
@@ -119,13 +122,21 @@ export function mergeStatic<T, R>(...observables: (ObservableInput<any> | Schedu
  * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
  * merged.subscribe(x => console.log(x));
  *
+ * // Results in the following:
+ * // - First timer1 and timer2 will run concurrently
+ * // - timer1 will emit a value every 1000ms for 10 iterations
+ * // - timer2 will emit a value every 2000ms for 6 iterations
+ * // - after timer1 hits it's max iteration, timer2 will 
+ * //   continue, and timer3 will start to run concurrently with timer2
+ * // - when timer2 hits it's max iteration it terminates, and 
+ * //   timer3 will continue to emit a value every 500ms until it is complete
+ *
  * @see {@link mergeAll}
  * @see {@link mergeMap}
  * @see {@link mergeMapTo}
  * @see {@link mergeScan}
  *
- * @param {Observable} input1 An input Observable to merge with others.
- * @param {Observable} input2 An input Observable to merge with others.
+ * @param {...Observable} observables Input Observables to merge together.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
  * @param {Scheduler} [scheduler=null] The Scheduler to use for managing
@@ -149,7 +160,7 @@ export function mergeStatic<T, R>(...observables: Array<ObservableInput<any> | S
     concurrent = <number>observables.pop();
   }
 
-  if (observables.length === 1) {
+  if (scheduler === null && observables.length === 1) {
     return <Observable<R>>observables[0];
   }
 

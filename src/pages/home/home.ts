@@ -4,12 +4,6 @@ import { PostDetailPage } from '../post-detail/post-detail'
 import { NavController, NavParams } from 'ionic-angular';
 import 'rxjs/add/operator/map'
 
-/*
-  Generated class for the Home page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
