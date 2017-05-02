@@ -3,7 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { ManualPage } from '../pages/manual/manual';
 import { HomePage } from '../pages/home/home';
-import { Page2 } from '../pages/page2/page2';
+import { PrimeiraGeracaoPage } from '../pages/primeira-geracao/primeira-geracao';
+import { SegundaGeracaoPage } from '../pages/segunda-geracao/segunda-geracao';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Manuais', component: ManualPage },
-      { title: 'Page Two', component: Page2 }
+      { title: 'Primeira geração', component: PrimeiraGeracaoPage },
+      { title: 'Segunda geração', component: SegundaGeracaoPage }
     ];
 
   }

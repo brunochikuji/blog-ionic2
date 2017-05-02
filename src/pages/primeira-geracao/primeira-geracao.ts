@@ -16,7 +16,7 @@ export class PrimeiraGeracaoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PrimeiraGeracaoPage');
+    
   }
 
 }

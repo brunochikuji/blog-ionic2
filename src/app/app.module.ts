@@ -4,14 +4,16 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ManualPage } from '../pages/manual/manual';
 import { PostDetailPage } from '../pages/post-detail/post-detail';
-import { Page2 } from '../pages/page2/page2';
+import { PrimeiraGeracaoPage } from '../pages/primeira-geracao/primeira-geracao';
+import { SegundaGeracaoPage } from '../pages/segunda-geracao/segunda-geracao';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ManualPage,
-    Page2,
+    PrimeiraGeracaoPage,
+    SegundaGeracaoPage,
     PostDetailPage
   ],
   imports: [
@@ -22,7 +24,8 @@ import { Page2 } from '../pages/page2/page2';
     MyApp,
     HomePage,
     ManualPage,
-    Page2,
+    PrimeiraGeracaoPage,
+    SegundaGeracaoPage,
     PostDetailPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
