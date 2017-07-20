@@ -6,6 +6,11 @@ import { ManualPage } from '../pages/manual/manual';
 import { PostDetailPage } from '../pages/post-detail/post-detail';
 import { PrimeiraGeracaoPage } from '../pages/primeira-geracao/primeira-geracao';
 import { SegundaGeracaoPage } from '../pages/segunda-geracao/segunda-geracao';
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +22,8 @@ import { SegundaGeracaoPage } from '../pages/segunda-geracao/segunda-geracao';
     PostDetailPage
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -28,6 +35,9 @@ import { SegundaGeracaoPage } from '../pages/segunda-geracao/segunda-geracao';
     SegundaGeracaoPage,
     PostDetailPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
